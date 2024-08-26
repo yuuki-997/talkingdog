@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Talking Dog</title>
+    <style>
+         /* 画像を画面の30%の大きさにする */
+         .image-content img {
+         width: 30%;
+         height: auto; /* 画像のアスペクト比を保つ */
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>
+           <span id="area">いぬとお話し🐶</span> 
+        </h1>
+        <div id="view"></div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script>
+            let currentDogImage = '';
+
+
+                function getDog(){
+            $.getJSON("https://dog.ceo/api/breeds/image/random", function( data ) {
+                $(".json pre").html(JSON.stringify(data, null, 4));
+                currentDogImage = data.message;  // 画像URLを保存
+                $(".image-content").html("<img src='" + data.message + "'>");
+            });
+        }
+        $(document).ready(function() {
+            getDog();
+        });
+
+        function talkToDog() {
+            if (currentDogImage) {
+        window.location.href = "./talking.html?dogImage=" + encodeURIComponent(currentDogImage);
+    
+}
+        }
+    </script>
+
+    <div>
+        <h4>どのいぬとお話しする？</h4>
+        <button type="button" onclick="talkToDog()">このいぬとお話しする！</a></button>
+        <div class="image-content"></div>
+        <button type="button" onclick="getDog()">ほかのいぬとお話しする？</button>
+    </div>
+    
+</body>
+</html>
